@@ -126,10 +126,10 @@ TEST(Test_Factory, multiuser) {
     EXPECT_EQ(TestFactory::Available(), initial_capacity);
 
     std::random_device dev;
-    std::mt19937 rng(dev());
     std::uniform_int_distribution<std::mt19937::result_type> dist(10, 75);
 
     auto user = [&] () {
+        thread_local std::mt19937 rng(dev());
         std::ostringstream oss;
         oss << "Thread " << std::this_thread::get_id();
         std::this_thread::sleep_for(std::chrono::milliseconds(dist(rng)));
